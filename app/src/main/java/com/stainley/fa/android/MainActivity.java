@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
                         new SwipeUnderlayButtonClickListener() {
                             @Override
                             public void onClick(int position) {
-                                //deleteEmployee(position);
+                                deleteProduct(position);
+
                                 System.out.println("DELETING");
                             }
                         }));
@@ -94,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
     public void addNewProduct(View view) {
         Intent intent = new Intent(this, ProductAddActivity.class);
         startActivity(intent);
+    }
+
+    public void deleteProduct(int position) {
+        productViewModel.deleteProduct(products.get(position));
+        products.remove(position);
+        adapter.notifyItemRemoved(position);
     }
 
     @Override

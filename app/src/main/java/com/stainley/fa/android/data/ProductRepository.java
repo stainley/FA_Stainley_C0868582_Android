@@ -23,11 +23,11 @@ public class ProductRepository {
     }
 
     public void deleteProduct(Product product) {
-        ProductRoomDatabase.databaseWriteExecutor.execute(() -> this.deleteProduct(product));
+        ProductRoomDatabase.databaseWriteExecutor.execute(() -> this.productDao.delete(product));
     }
 
     public void updateProduct(Product product) {
-        ProductRoomDatabase.databaseWriteExecutor.execute(() -> this.updateProduct(product));
+        ProductRoomDatabase.databaseWriteExecutor.execute(() -> this.productDao.update(product));
     }
 
 
