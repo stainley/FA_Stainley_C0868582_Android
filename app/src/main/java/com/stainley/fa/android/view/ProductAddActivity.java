@@ -129,6 +129,7 @@ public class ProductAddActivity extends AppCompatActivity {
             } else {
                 productViewModel.saveProduct(product);
             }
+            deleteSP();
             finish();
         }
     }
@@ -137,12 +138,16 @@ public class ProductAddActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == android.R.id.home) {
-            SharedPreferences.Editor editor = getSharedPreferences("product_sp", MODE_PRIVATE).edit();
-            editor.remove("long_id");
-            editor.apply();
+            deleteSP();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteSP() {
+        SharedPreferences.Editor editor = getSharedPreferences("product_sp", MODE_PRIVATE).edit();
+        editor.remove("long_id");
+        editor.apply();
     }
 
     @Override
