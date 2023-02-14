@@ -2,7 +2,9 @@ package com.stainley.fa.android.model;
 
 import androidx.room.ColumnInfo;
 
-public class Location {
+import java.io.Serializable;
+
+public class Location implements Serializable {
     @ColumnInfo(name = "LATITUDE")
     private double latitude;
     @ColumnInfo(name = "LONGITUDE")

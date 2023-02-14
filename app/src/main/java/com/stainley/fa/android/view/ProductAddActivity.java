@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.stainley.fa.android.databinding.ActivityAddProductBinding;
+import com.stainley.fa.android.model.Location;
 import com.stainley.fa.android.model.Product;
 import com.stainley.fa.android.viewmodel.ProductViewModel;
 import com.stainley.fa.android.viewmodel.ProductViewModelFactory;
@@ -38,10 +39,13 @@ public class ProductAddActivity extends AppCompatActivity {
             binding.productNameTxt.setText(oldProduct.getName());
             binding.productDescriptionTxt.setText(oldProduct.getDescription());
             binding.productPriceTxt.setText(String.valueOf(oldProduct.getPrice()));
+
+            if (oldProduct.getLocation() != null) {
+                binding.locationTxt.setText(oldProduct.getLocation().getLatitude() + ", " + oldProduct.getLocation().getLongitude());
+            }
         }
 
         productViewModel = new ViewModelProvider(this, new ProductViewModelFactory(getApplication())).get(ProductViewModel.class);
-
         binding.saveProductBtn.setOnClickListener(this::createProduct);
 
         binding.locationMapBtn.setOnClickListener(this::addLocation);
@@ -50,6 +54,11 @@ public class ProductAddActivity extends AppCompatActivity {
 
     public void addLocation(View view) {
         Intent mapIntent = new Intent(this, MapsActivity.class);
+        if (oldProduct != null) {
+            if (oldProduct.getLocation() != null) {
+                mapIntent.putExtra("product", oldProduct);
+            }
+        }
         startActivity(mapIntent);
     }
 

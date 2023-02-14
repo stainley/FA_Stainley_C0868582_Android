@@ -72,7 +72,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
         android:orientation="horizontal"
+        android:paddingTop="8dp"
         android:weightSum="2"
         app:layout_constraintTop_toBottomOf="@id/productPriceLbl">
 
@@ -86,10 +91,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/locationTxt"
-                android:focusable="false"
-                android:enabled="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:focusable="false" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
