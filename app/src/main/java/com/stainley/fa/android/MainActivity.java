@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                         Color.parseColor("#ff9502"),
                         SwipeDirection.LEFT,
                         position -> {
+                            SharedPreferences.Editor editor = getSharedPreferences("product_sp", MODE_PRIVATE).edit();
+                            editor.putLong("long_id", products.get(position).getId());
+                            editor.apply();
                             Intent productToEdit = new Intent(getApplicationContext(), ProductAddActivity.class);
                             productToEdit.putExtra("oldProduct", products.get(position));
                             startActivity(productToEdit);
@@ -108,25 +112,29 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (query.equals("")) {
-            productViewModel.fetchAllProducts().observe(this, productResult -> {
-                products.clear();
 
-                products.addAll(productResult);
-                adapter.notifyDataSetChanged();
-            });
-        }
 
-        productViewModel.fetchAllByProductName(query).observe(this, productResult -> {
-            products.clear();
-            products.addAll(productResult);
-            adapter.notifyDataSetChanged();
-        });
+
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        if (newText.equals("")) {
+            productViewModel.fetchAllProducts().observe(this, productResult -> {
+                products.clear();
+
+                products.addAll(productResult);
+                adapter.notifyDataSetChanged();
+
+            });
+        }
+
+        productViewModel.fetchAllByProductName(newText).observe(this, productResult -> {
+            products.clear();
+            products.addAll(productResult);
+            adapter.notifyDataSetChanged();
+        });
         return false;
     }
 }
