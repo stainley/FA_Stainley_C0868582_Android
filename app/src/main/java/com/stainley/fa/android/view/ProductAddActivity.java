@@ -18,6 +18,7 @@ public class ProductAddActivity extends AppCompatActivity {
 
     private ActivityAddProductBinding binding;
     private ProductViewModel productViewModel;
+    private Product oldProduct;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +29,14 @@ public class ProductAddActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        oldProduct = (Product) getIntent().getSerializableExtra("oldProduct");
+
+        if (oldProduct != null) {
+            binding.productNameTxt.setText(oldProduct.getName());
+            binding.productDescriptionTxt.setText(oldProduct.getDescription());
+            binding.productPriceTxt.setText(String.valueOf(oldProduct.getPrice()));
         }
 
         productViewModel = new ViewModelProvider(this, new ProductViewModelFactory(getApplication())).get(ProductViewModel.class);
@@ -47,10 +56,17 @@ public class ProductAddActivity extends AppCompatActivity {
                 && !productDescriptionText.getText().toString().isEmpty()
                 && !productPriceText.getText().toString().isEmpty()) {
 
+            if (oldProduct != null) {
+                product = oldProduct;
+            }
             product.setName(productNameText.getText().toString());
             product.setDescription(productDescriptionText.getText().toString());
             product.setPrice(Double.valueOf(productPriceText.getText().toString()));
-            productViewModel.saveProduct(product);
+            if (oldProduct != null) {
+                productViewModel.updateProduct(product);
+            } else {
+                productViewModel.saveProduct(product);
+            }
             finish();
         }
 

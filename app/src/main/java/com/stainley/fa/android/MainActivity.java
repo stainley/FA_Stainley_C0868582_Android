@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.stainley.fa.android.adapter.ProductRVAdapter;
 import com.stainley.fa.android.databinding.ActivityMainBinding;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         productViewModel.fetchAllProducts().observe(this, productResult -> {
             products.clear();
             products.addAll(productResult);
-            adapter.notifyItemChanged(productResult.size());
+            adapter.notifyDataSetChanged();
         });
 
         binding.productAdd.setOnClickListener(this::addNewProduct);
@@ -65,13 +66,9 @@ public class MainActivity extends AppCompatActivity {
                         50,
                         Color.parseColor("#ff3c30"),
                         SwipeDirection.LEFT,
-                        new SwipeUnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int position) {
-                                deleteProduct(position);
-
-                                System.out.println("DELETING");
-                            }
+                        position -> {
+                            deleteProduct(position);
+                            Toast.makeText(getApplicationContext(), "Product deleted", Toast.LENGTH_SHORT).show();
                         }));
                 buffer.add(new SwipeUnderlayButton(MainActivity.this,
                         "Update",
@@ -80,12 +77,10 @@ public class MainActivity extends AppCompatActivity {
                         50,
                         Color.parseColor("#ff9502"),
                         SwipeDirection.LEFT,
-                        new SwipeUnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int position) {
-                                //displayEmployeeForEditing(position);
-                                System.out.println("UPDATING");
-                            }
+                        position -> {
+                            Intent productToEdit = new Intent(getApplicationContext(), ProductAddActivity.class);
+                            productToEdit.putExtra("oldProduct", products.get(position));
+                            startActivity(productToEdit);
                         }));
             }
         };
