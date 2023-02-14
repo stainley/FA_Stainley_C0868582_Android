@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.stainley.fa.android.databinding.ActivityAddProductBinding;
-import com.stainley.fa.android.model.Location;
 import com.stainley.fa.android.model.Product;
 import com.stainley.fa.android.viewmodel.ProductViewModel;
 import com.stainley.fa.android.viewmodel.ProductViewModelFactory;

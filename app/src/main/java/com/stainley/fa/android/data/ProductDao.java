@@ -29,4 +29,7 @@ public interface ProductDao extends AbstractDao<Product> {
     @Override
     LiveData<List<Product>> fetchAll();
 
+    @Query("SELECT * FROM PRODUCT_TBL WHERE NAME LIKE '%' || :name || '%'")
+    LiveData<List<Product>> findProductByName(String name);
+
 }

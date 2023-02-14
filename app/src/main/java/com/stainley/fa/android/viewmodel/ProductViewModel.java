@@ -34,4 +34,8 @@ public class ProductViewModel extends ViewModel {
     public LiveData<List<Product>> fetchAllProducts() {
         return productRepository.fetchAllProducts();
     }
+
+    public LiveData<List<Product>> fetchAllByProductName(String name) {
+        return productRepository.fetAllByProductName(name);
+    }
 }

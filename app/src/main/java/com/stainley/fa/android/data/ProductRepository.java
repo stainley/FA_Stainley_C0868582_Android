@@ -34,4 +34,8 @@ public class ProductRepository {
     public LiveData<List<Product>> fetchAllProducts() {
         return this.productDao.fetchAll();
     }
+
+    public LiveData<List<Product>> fetAllByProductName(String name) {
+        return this.productDao.findProductByName(name);
+    }
 }

@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.stainley.fa.android.adapter.ProductRVAdapter;
@@ -24,7 +25,7 @@ import com.stainley.fa.android.viewmodel.ProductViewModelFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     protected ActivityMainBinding binding;
     private RecyclerView productRecycleView;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.productAdd.setOnClickListener(this::addNewProduct);
+        SearchView searchProduct = binding.searchProduct;
+        searchProduct.setOnQueryTextListener(this);
 
         // using SwipeHelper class
         SwipeHelper swipeHelper = new SwipeHelper(this, 300, productRecycleView) {
@@ -101,5 +104,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        if (query.equals("")) {
+            productViewModel.fetchAllProducts().observe(this, productResult -> {
+                products.clear();
+
+                products.addAll(productResult);
+                adapter.notifyDataSetChanged();
+            });
+        }
+
+        productViewModel.fetchAllByProductName(query).observe(this, productResult -> {
+            products.clear();
+            products.addAll(productResult);
+            adapter.notifyDataSetChanged();
+        });
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }
