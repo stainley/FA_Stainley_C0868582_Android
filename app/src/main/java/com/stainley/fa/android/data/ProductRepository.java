@@ -38,4 +38,8 @@ public class ProductRepository {
     public LiveData<List<Product>> fetAllByProductName(String name) {
         return this.productDao.findProductByName(name);
     }
+
+    public LiveData<Product> findProductById(long id) {
+        return this.productDao.findProductById(id);
+    }
 }

@@ -1,6 +1,7 @@
 package com.stainley.fa.android.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ public class ProductAddActivity extends AppCompatActivity {
     private ActivityAddProductBinding binding;
     private ProductViewModel productViewModel;
     private Product oldProduct;
+    private long productId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,19 +34,26 @@ public class ProductAddActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        oldProduct = (Product) getIntent().getSerializableExtra("oldProduct");
-
-        if (oldProduct != null) {
-            binding.productNameTxt.setText(oldProduct.getName());
-            binding.productDescriptionTxt.setText(oldProduct.getDescription());
-            binding.productPriceTxt.setText(String.valueOf(oldProduct.getPrice()));
-
-            if (oldProduct.getLocation() != null) {
-                binding.locationTxt.setText(oldProduct.getLocation().getLatitude() + ", " + oldProduct.getLocation().getLongitude());
-            }
-        }
-
         productViewModel = new ViewModelProvider(this, new ProductViewModelFactory(getApplication())).get(ProductViewModel.class);
+
+        SharedPreferences sp = getSharedPreferences("product_sp", MODE_PRIVATE);
+        productId = sp.getLong("long_id", -1L);
+
+        productViewModel.findProductById(productId).observe(this, productFound -> {
+            this.oldProduct = productFound;
+
+            if (oldProduct != null) {
+                binding.productNameTxt.setText(oldProduct.getName());
+                binding.productDescriptionTxt.setText(oldProduct.getDescription());
+                binding.productPriceTxt.setText(String.valueOf(oldProduct.getPrice()));
+
+                if (oldProduct.getLocation() != null) {
+                    binding.locationTxt.setText(oldProduct.getLocation().getLatitude() + ", " + oldProduct.getLocation().getLongitude());
+                }
+            }
+        });
+
+
         binding.saveProductBtn.setOnClickListener(this::createProduct);
 
         binding.locationMapBtn.setOnClickListener(this::addLocation);

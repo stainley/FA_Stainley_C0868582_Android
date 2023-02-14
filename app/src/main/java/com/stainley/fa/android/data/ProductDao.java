@@ -29,6 +29,9 @@ public interface ProductDao extends AbstractDao<Product> {
     @Override
     LiveData<List<Product>> fetchAll();
 
+    @Query("SELECT * FROM PRODUCT_TBL WHERE ID = :id")
+    LiveData<Product> findProductById(long id);
+
     @Query("SELECT * FROM PRODUCT_TBL WHERE NAME LIKE '%' || :name || '%' OR DESCRIPTION LIKE '%' || :name || '%'")
     LiveData<List<Product>> findProductByName(String name);
 

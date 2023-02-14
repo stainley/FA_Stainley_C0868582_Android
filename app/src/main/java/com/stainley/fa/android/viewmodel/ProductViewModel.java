@@ -38,4 +38,8 @@ public class ProductViewModel extends ViewModel {
     public LiveData<List<Product>> fetchAllByProductName(String name) {
         return productRepository.fetAllByProductName(name);
     }
+
+    public LiveData<Product> findProductById(long id) {
+        return productRepository.findProductById(id);
+    }
 }
