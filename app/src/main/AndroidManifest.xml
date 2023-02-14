@@ -12,6 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FA_stainley_C0868582_Android"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_api_key" />
+
+        <activity
+            android:name=".view.MapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps"
+            android:parentActivityName=".view.ProductAddActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

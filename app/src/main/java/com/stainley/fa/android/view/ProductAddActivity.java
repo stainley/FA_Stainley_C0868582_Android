@@ -1,5 +1,6 @@
 package com.stainley.fa.android.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,13 @@ public class ProductAddActivity extends AppCompatActivity {
 
         binding.saveProductBtn.setOnClickListener(this::createProduct);
 
+        binding.locationMapBtn.setOnClickListener(this::addLocation);
+
+    }
+
+    public void addLocation(View view) {
+        Intent mapIntent = new Intent(this, MapsActivity.class);
+        startActivity(mapIntent);
     }
 
     public void createProduct(View view) {

@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private ProductRVAdapter adapter;
     private final List<Product> products = new ArrayList<>();
     private ProductViewModel productViewModel;
-    private SwipeHelper swipeHelper;
 
 
     @Override
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         binding.productAdd.setOnClickListener(this::addNewProduct);
 
         // using SwipeHelper class
-        swipeHelper = new SwipeHelper(this, 300, productRecycleView) {
+        SwipeHelper swipeHelper = new SwipeHelper(this, 300, productRecycleView) {
             @Override
             protected void instantiateSwipeButton(RecyclerView.ViewHolder viewHolder, List<SwipeUnderlayButton> buffer) {
                 buffer.add(new SwipeUnderlayButton(MainActivity.this,

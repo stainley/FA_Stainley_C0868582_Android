@@ -35,6 +35,14 @@ public class Product implements Serializable {
         this.price = price;
     }
 
+    public Product(String name, String description, double price, Location location) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.location = location;
+    }
+
+    @Ignore
     public Product(Long id, String name, String description, double price, Location location) {
         this(id, name, description, price);
         this.location = location;
