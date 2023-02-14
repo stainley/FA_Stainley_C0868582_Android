@@ -26,7 +26,7 @@ import com.stainley.fa.android.viewmodel.ProductViewModelFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, ProductRVAdapter.OnProductRowCallback {
 
     protected ActivityMainBinding binding;
     private RecyclerView productRecycleView;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         productRecycleView = binding.productRecycleView;
 
-        adapter = new ProductRVAdapter(products);
+        adapter = new ProductRVAdapter(products, this);
         productRecycleView.setLayoutManager(new LinearLayoutManager(this));
         productRecycleView.setAdapter(adapter);
         productViewModel = new ViewModelProvider(this, new ProductViewModelFactory(getApplication())).get(ProductViewModel.class);
@@ -133,5 +133,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             adapter.notifyDataSetChanged();
         });
         return false;
+    }
+
+    @Override
+    public void onRowSelected(int position) {
+        SharedPreferences.Editor editor = getSharedPreferences("product_sp", MODE_PRIVATE).edit();
+        editor.putLong("long_id", products.get(position).getId());
+        editor.apply();
+        Intent productToEdit = new Intent(getApplicationContext(), ProductAddActivity.class);
+        productToEdit.putExtra("oldProduct", products.get(position));
+        startActivity(productToEdit);
     }
 }
