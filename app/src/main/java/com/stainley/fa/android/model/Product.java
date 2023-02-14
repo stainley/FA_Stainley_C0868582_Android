@@ -27,6 +27,7 @@ public class Product implements Serializable {
     public Product() {
     }
 
+    @Ignore
     public Product(Long id, String name, String description, double price) {
         this.id = id;
         this.name = name;
